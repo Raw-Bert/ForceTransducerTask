@@ -8,8 +8,12 @@ public class CSVRead : MonoBehaviour
 {
     public GameObject line;
     public GameObject currentLine;
-
     public LineRenderer lineRenderer;
+    public GameObject lineRed;
+    public GameObject currentLineRed;
+    public LineRenderer lineRendererRed;
+    public List<Vector2> lpRed;
+    
 
     public List<float> lineX;
     public List<float> lineY;
@@ -102,7 +106,6 @@ public class CSVRead : MonoBehaviour
             if(data_String == null)
             {
                 endOfFile = true;
-                //strm.Close();
                 break;
             }
             var data_values = data_String.Split(',');
@@ -113,14 +116,12 @@ public class CSVRead : MonoBehaviour
             Debug.Log("File 1: " + csvX[i] + " " + csvY[i]);
             i++;
         }
-        //Debug.Log("No Errors Yet??");
 
         StreamReader strm2 = new StreamReader(getPath2());
         bool endOfFile2 = false;
         int j = 0;
         while(!endOfFile2)
         {            
-            //Debug.Log("We are here??");
             string data_String2 = strm2.ReadLine();
 
             if(data_String2 == null)
@@ -139,7 +140,7 @@ public class CSVRead : MonoBehaviour
         }
 
         j = 0;
-        //Debug.Log("No Errors Yet 2 ??");
+
         StreamReader strm3 = new StreamReader(getPath3());
         bool endOfFile3 = false;
         while(!endOfFile3)
@@ -184,7 +185,6 @@ public class CSVRead : MonoBehaviour
             j++;
         }
 
-        //DrawLines();
         randomTracker = new List<int>(new int[numberOfBlocks]);
         int rand;
         for (int a = 0; a < (numberOfBlocks / 4); a++)
@@ -252,13 +252,17 @@ public class CSVRead : MonoBehaviour
             if(lineX[a] <= 0.0005f && !lineCreated)
             {
                 CreateLine();
+                CreateLineRed();
                 lineCreated = true;
             }
+            
             else
             {
                 if(Vector2.Distance(new Vector2(lineX[a], lineY[a]), lp[lp.Count - 1]) > .1f)
                 {
                     UpdateLine(new Vector2(lineX[a], lineY[a]));
+                    UpdateLineRed(new Vector2(lineX[a], (lineY[a] - 0.5f)));
+                    //UpdateLineRed(new Vector2(lineX[a], (lineY[a] + 0.5f)));                 
 //
                     if ((lineX[a] - lastCoin) > 0.5f)
                     {
@@ -266,12 +270,13 @@ public class CSVRead : MonoBehaviour
                         lastCoin = lineX[a];
                     }
                 }
+               
 
                 if(a == (lineX.Count - 1) && randomTracker[player.GetComponent<MovePlayer>().blockTrack] != randomTracker.Count )
                 {
-                    //Debug.Log("what");
                     restZone.transform.position = new Vector3((lineX[a] + 2.5f),0,0);
                 }
+
                 else if (randomTracker[player.GetComponent<MovePlayer>().blockTrack] == randomTracker.Count)
                 {
                     restZone.SetActive(false);
@@ -429,6 +434,28 @@ public class CSVRead : MonoBehaviour
         edgeCollider.points = lp.ToArray();
 
     }
+
+    void CreateLineRed()
+    {
+        currentLineRed = Instantiate(lineRed, Vector3.zero, Quaternion.identity);
+        lineRendererRed = currentLineRed.GetComponent<LineRenderer>();
+
+        lpRed.Clear();
+        lpRed.Add(new Vector2(lineX[0], lineY[0]));
+        lpRed.Add(new Vector2(lineX[0], lineY[0]));
+
+        lineRendererRed.SetPosition(0, lpRed[0]);
+        lineRendererRed.SetPosition(1,lpRed[1]);
+
+    }
+
+    void UpdateLineRed(Vector2 newPoint)
+    {
+        lpRed.Add(newPoint);
+        lineRendererRed.positionCount++;
+        lineRendererRed.SetPosition(lineRendererRed.positionCount - 1, newPoint);
+    }
+    
 
     void SpawnCoin(Vector3 pos)
     {

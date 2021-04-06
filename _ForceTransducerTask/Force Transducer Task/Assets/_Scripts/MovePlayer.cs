@@ -57,13 +57,6 @@ public class MovePlayer : MonoBehaviour
     {
         if(go == true)
         {
-
-        
-        //if (GetKeyDown(key))
-        //{
-            //go == true;
-        //}
-        //{
             //Move player to the right at constant speed
             transform.Translate(Vector2.right * Time.deltaTime * speed);
 
@@ -105,6 +98,8 @@ public class MovePlayer : MonoBehaviour
             {
                 current = height - height;
             }
+
+            //Some crazy math forula to dictate where on the screen the player will be
             player.transform.position = new Vector3(player.transform.position.x ,
                 ((height - height) + (current - (max/2)) / (max/height)), player.transform.position.z);
 
@@ -115,27 +110,25 @@ public class MovePlayer : MonoBehaviour
         }
         else //if go == false
         {
+            //unpause if left mouse button pressed
             if(Input.GetButton("Fire1"))
             {
-
                 pausedObject.SetActive(false);
                 go = true;
                 Time.timeScale = 1.0f;
-                
             }
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("ENDGAMEEEEEEEEEEE1111");
+        //If the player touches the endzone game object end the game after 1 second
         if (other.tag == "EndZone")
         {
             manager.GetComponent<EndCondition>().EndBlock(1f);
-            Debug.Log("ENDGAMEEEEEEEEEEE");
-           
             over = true;
         }
+        //If the player touches the restzone game object pause the game and load the next block
         else if (other.tag == "RestZone")
         {
             go = false;
@@ -155,6 +148,7 @@ public class MovePlayer : MonoBehaviour
             //Enable coins to start spawning from 0
             manager.GetComponent<CSVRead>().lastCoin = 0;
 
+            //Destroy the current coins
             if(manager.GetComponent<CSVRead>().coinList.Count > 0)
             {
                 foreach(GameObject cn in manager.GetComponent<CSVRead>().coinList)
@@ -162,9 +156,11 @@ public class MovePlayer : MonoBehaviour
                     Destroy(cn);
                 }
             }
- 
+
+            //Put the player back at the start
             player.transform.position = startPosition;
 
+            //Draw new white lines based on whichever CSV the next block uses
             manager.GetComponent<CSVRead>().DrawNextLine(manager.GetComponent<CSVRead>().randomTracker[blockTrack]);
             Debug.Log("Random track: " + manager.GetComponent<CSVRead>().randomTracker[blockTrack]);
             Debug.Log("bloackTrack value: " + blockTrack);

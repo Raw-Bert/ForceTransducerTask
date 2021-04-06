@@ -324,6 +324,10 @@ MonoBehaviour:
   line: {fileID: 706547895417347225, guid: 59c51fb31816b494d8c51144141ea7b3, type: 3}
   currentLine: {fileID: 0}
   lineRenderer: {fileID: 0}
+  lineRed: {fileID: 3765167574521906996, guid: cd98f535c7ff24745bf022482e6dc98e, type: 3}
+  currentLineRed: {fileID: 0}
+  lineRendererRed: {fileID: 0}
+  lpRed: []
   lineX: []
   lineY: []
   csvX: []
@@ -338,11 +342,13 @@ MonoBehaviour:
   player: {fileID: 160813828}
   edgeCollider: {fileID: 0}
   coin: {fileID: 3125297484746931586, guid: 8bbf873b5cdbb8641a990e0219533327, type: 3}
+  lastCoin: 0
   height: 0
   tempMax: 0
   randomTracker: 
   endZone: {fileID: 229979442}
   restZone: {fileID: 345430615}
+  coinList: []
   lineCreated: 0
 --- !u!1 &160813828
 GameObject:
@@ -473,6 +479,7 @@ MonoBehaviour:
   speed: 1
   over: 0
   go: 0
+  blockTrack: 0
   pausedObject: {fileID: 454195699}
 --- !u!114 &160813833
 MonoBehaviour:
