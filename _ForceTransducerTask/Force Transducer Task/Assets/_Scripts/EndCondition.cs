@@ -9,9 +9,9 @@ public class EndCondition : MonoBehaviour
     public GameObject endScreen;
     public GameObject player;
     public Text coinsCollected;
+    public Text TotalCoinsCollected;
     public string menuScene;
     Coroutine end;
-    //GameObject menuData;
     GameObject[] objs;
     void Awake() 
     {
@@ -23,21 +23,19 @@ public class EndCondition : MonoBehaviour
     public void EndBlock(float seconds)
     {
         player.GetComponent<MovePlayer>().over = true;
-        coinsCollected.text = ("Coins Collected: " + player.GetComponent<CoinPickup>().coinNumber);
+        coinsCollected.text = ("Coins Collected Last Block: " + player.GetComponent<CoinPickup>().coinNumber);
+        TotalCoinsCollected.text = ("Total Coins Collected: " + player.GetComponent<CoinPickup>().totalCoins);
         end = StartCoroutine(EndGame(seconds));
-
-        
     }
 
-    public void MenuButton()
+    /*public void MenuButton()
     {
-        //for(int i = 0; i < objs.Length; i++)
-        //{
-        //    Destroy(objs[i].gameObject);
-        //}
-        Time.timeScale = 1f;
+        if(Time.timeScale != 1.0f)
+        {
+            Time.timeScale = 1.0f;
+        }
         SceneManager.LoadScene(menuScene);
-    }
+    }*/
 
     IEnumerator EndGame(float seconds)
     {

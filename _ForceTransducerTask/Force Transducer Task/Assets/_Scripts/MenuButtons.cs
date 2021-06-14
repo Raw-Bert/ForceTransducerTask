@@ -9,6 +9,7 @@ public class MenuButtons : MonoBehaviour
 {
     public InputField overRide;
     public InputField numBlocks;
+     public InputField biasField;
 
     public Text maxText;
 
@@ -16,6 +17,9 @@ public class MenuButtons : MonoBehaviour
     public GameObject forceTracker;
     
     public string trialScene;
+    public string labView;
+    public string transferView;
+    public string gameTransferScene;
 
     public float overriddenMaxForce;
 
@@ -24,6 +28,21 @@ public class MenuButtons : MonoBehaviour
     }
     
 
+    public void PlayLabView()
+    { 
+        //Loads the trial selected from the dropdown. 
+        SceneManager.LoadScene(labView);
+    }
+    public void PlayLabViewTransfer()
+    { 
+        //Loads the trial selected from the dropdown. 
+        SceneManager.LoadScene(transferView);
+    }
+    public void GamifiedTransfer()
+    { 
+        //Loads the trial selected from the dropdown. 
+        SceneManager.LoadScene(gameTransferScene);
+    }
     public void PlayButton()
     { 
         //Loads the trial selected from the dropdown. 
@@ -61,5 +80,11 @@ public class MenuButtons : MonoBehaviour
     {
         forceTracker.GetComponent<MoveForceData>().blocks = int.Parse(numBlocks.text);
         Debug.Log("Blocks: " + forceTracker.GetComponent<MoveForceData>().blocks);
+    }
+
+    public void SetBias()
+    {
+        forceTracker.GetComponent<MoveForceData>().bias = float.Parse(biasField.text);
+        Debug.Log("Bias: " + forceTracker.GetComponent<MoveForceData>().bias);
     }
 }

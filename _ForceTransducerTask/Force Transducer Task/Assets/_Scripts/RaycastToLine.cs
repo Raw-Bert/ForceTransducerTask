@@ -6,6 +6,7 @@ public class RaycastToLine : MonoBehaviour
 {
     public LayerMask LineLayer;
     public float timer;
+    public float dist;
    //public GameObject player;
 
     // Start is called before the first frame update
@@ -35,8 +36,8 @@ public class RaycastToLine : MonoBehaviour
 
         if (hit.collider != null)
         {
-
-            //Debug.Log("DOWN: " + hit.distance);
+            dist = hit.distance * (-1);
+           // Debug.Log("DOWN: " + hit.point.y);
         }
 
         else if(hit.collider == null)
@@ -46,9 +47,13 @@ public class RaycastToLine : MonoBehaviour
 
             if (hitUp.collider != null)
             {
-                //Debug.Log("UP: " + hitUp.distance);
+                dist = hitUp.point.y;
+               // Debug.Log("UP: " + dist);
             }
-            //else Debug.Log(0);
+            else{
+                dist = 0;
+               // Debug.Log(dist);
+            } 
         } 
         
         

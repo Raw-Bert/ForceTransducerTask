@@ -6,6 +6,8 @@ public class MoveForceData : MonoBehaviour
 {
     public float force;
     public int blocks;
+    public float bias;
+
     void Awake() {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("NoDestroy");
         if (objs.Length > 1)

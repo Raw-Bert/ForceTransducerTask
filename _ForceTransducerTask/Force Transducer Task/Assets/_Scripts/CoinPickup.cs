@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CoinPickup : MonoBehaviour
 {
-    public int coinNumber;
-
-    public Text coinText;
+    public int coinNumber = 0; //Coins the player has collected in one block
+    public int totalCoins = 0; 
+    public Text coinText; 
+    [SerializeField] private string gamifiedScene = "GamifiedScene";
 
     //Awake is called when the object is loaded
     void Awake()
     {
         coinNumber = 0;
+        totalCoins = 0;
         coinText.text = ("Coins: " + coinNumber);
     }
 
@@ -21,8 +24,13 @@ public class CoinPickup : MonoBehaviour
     {
         if (other.tag == "Coin")
         {
-            Destroy(other.gameObject);
+            if((SceneManager.GetActiveScene().name == gamifiedScene))
+            {
+                Destroy(other.gameObject);
+            }
+            
             coinNumber += 1;
+            totalCoins += 1;
             coinText.text = ("Coins: " + coinNumber);
         }
     }    
